@@ -18,7 +18,7 @@ const sendTextMessage = (senderId, text) => {
 
 module.exports = (event) => {
 		 const senderId = event.sender.id;
-		 const message = event.message.text;
+		 const message = event.text;
 		const apiaiSession = apiAiClient.textRequest(message, {sessionId: 'CustomerServiceAgent'});
 		apiaiSession.on('response', (response) => {
 		 const result = response.result.fulfillment.speech;

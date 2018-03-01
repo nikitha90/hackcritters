@@ -9,11 +9,17 @@ var messengerService = require('./services/messengerService');
 
 // creates express http server
 app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
-// Creates the endpoint for our webhook 
+
+const verificationController = require('./controllers/verification');
+const messageWebhookController = require('./controllers/Webhook');
+app.get('/', verificationController);
+app.post('/', messageWebhookController);
+/*// Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
   let body = req.body;
@@ -72,4 +78,4 @@ app.get('/webhook', (req, res) => {
       res.sendStatus(403);      
     }
   }
-});
+});*/
