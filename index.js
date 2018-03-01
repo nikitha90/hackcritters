@@ -5,6 +5,7 @@
 var  express = require('express');
 var  bodyParser = require('body-parser');
 var  app = express();
+var messengerService = require('./services/messengerService');
 
 // creates express http server
 app.use(bodyParser.json()); 
@@ -19,14 +20,22 @@ app.post('/webhook', (req, res) => {
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
-
+    console.log('received message from facebook');
     // Iterates over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
+    body.entry.forEach(entry => {
 
+        entry.messaging.forEach(event => {
+          console.log("text message received");
+          if(event.message && event.message.text) {
+            messengerService(event);
+          }
+        });
+       // }
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      //let webhook_event = entry.messaging[0];
+
+      //console.log(webhook_event);
     });
 
     // Returns a '200 OK' response to all requests
