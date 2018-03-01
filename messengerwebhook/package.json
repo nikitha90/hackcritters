@@ -1,0 +1,19 @@
+{
+  "name": "messengerwebhook",
+  "version": "1.0.0",
+  "description": "customer service bot for hackathon",
+  "main": "index.js",
+  "scripts": {
+    "test": "hello world"
+  },
+  "author": "social media",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "ssh:git@github.com:nikitha90/hackcritters.git"
+  }
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
+  }
+}
