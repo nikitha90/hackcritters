@@ -1,29 +1,47 @@
 'use strict';
 
 // Imports dependencies and set up http server
-const
-  express = require('express'),
-  bodyParser = require('body-parser'),
-  app = express().use(bodyParser.json()); // creates express http server
+
+var  express = require('express');
+var  bodyParser = require('body-parser');
+var  app = express();
+var messengerService = require('./services/messengerService');
+
+// creates express http server
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
-// Creates the endpoint for our webhook 
+
+const verificationController = require('./controllers/verification');
+const messageWebhookController = require('./controllers/Webhook');
+app.get('/', verificationController);
+app.post('/', messageWebhookController);
+/*// Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
   let body = req.body;
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
-
+    console.log('received message from facebook');
     // Iterates over each entry - there may be multiple if batched
-    body.entry.forEach(function(entry) {
+    body.entry.forEach(entry => {
 
+        entry.messaging.forEach(event => {
+          console.log("text message received");
+          if(event.message && event.message.text) {
+            messengerService(event);
+          }
+        });
+       // }
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
+      //let webhook_event = entry.messaging[0];
+
+      //console.log(webhook_event);
     });
 
     // Returns a '200 OK' response to all requests
@@ -39,8 +57,7 @@ app.post('/webhook', (req, res) => {
 app.get('/webhook', (req, res) => {
 
   // Your verify token. Should be a random string.
-  let VERIFY_TOKEN = "HACK"
-    
+  let VERIFY_TOKEN = process.env.VERIFICATION_TOKEN
   // Parse the query params
   let mode = req.query['hub.mode'];
   let token = req.query['hub.verify_token'];
@@ -61,4 +78,4 @@ app.get('/webhook', (req, res) => {
       res.sendStatus(403);      
     }
   }
-});
+});*/
