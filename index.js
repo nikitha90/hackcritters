@@ -1,24 +1,22 @@
-'use strict';
+"use strict";
 
 // Imports dependencies and set up http server
-
-var  express = require('express');
-var  bodyParser = require('body-parser');
-var  app = express();
-var messengerService = require('./services/messengerService');
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+// var messengerService = require("./services/messengerService");
 
 // creates express http server
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Sets server port and logs message on success
-app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
+app.listen(process.env.PORT || 1337, () => console.log("webhook is listening"));
 
-
-const verificationController = require('./controllers/verification');
-const messageWebhookController = require('./controllers/Webhook');
-app.get('/', verificationController);
-app.post('/', messageWebhookController);
+const verificationController = require("./controllers/verification");
+const messageWebhookController = require("./controllers/Webhook");
+app.get("/", verificationController);
+app.post("/", messageWebhookController);
 /*// Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
  
